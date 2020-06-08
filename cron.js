@@ -18,5 +18,12 @@ schedule.scheduleJob("*/15 * * * *", function () {
   ) {
     response.pipe(update);
   });
+
+  let prov = new fs.createWriteStream("prov.json");
+  https.get("https://data.covid19.go.id/public/api/prov.json", function (
+    response
+  ) {
+    response.pipe(prov);
+  });
 });
 module.exports = router;

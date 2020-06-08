@@ -21,8 +21,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 var allRequest = function (req, res, next) {
-  req.path.replace("cron-covid19", "");
-  next();
+  let splitUrl = req.url.split("cron-covid19");
+  if (splitUrl[1] == "") {
+    req.url = splitUrl[0];
+  } else {
+    let newUrl = "";
+    for (let index = 0; index < splitUrl.length; index++) {
+      const element = splitUrl[index];
+      if (index != 0) {
+        newUrl = newUrl + element;
+      }
+    }
+    req.url = newUrl;
+  }
+  return next();
 };
 
 app.use(allRequest);

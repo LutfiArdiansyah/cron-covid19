@@ -20,6 +20,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+var allRequest = function (req, res, next) {
+  req.path.replace("cron-covid19", "");
+};
+
+app.use(allRequest);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/cron", cron);

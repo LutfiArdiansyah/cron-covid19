@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 var allRequest = function (req, res, next) {
   req.path.replace("cron-covid19", "");
+  next();
 };
 
 app.use(allRequest);

@@ -1,8 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const data = require("../data.json");
-const update = require("../update.json");
-const prov = require("../prov.json");
+var fs = require("fs");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -10,15 +8,30 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/data", function (req, res, next) {
-  res.json(data);
+  if (fs.existsSync("data.json")) {
+    let data = require("../data.json");
+    res.json(data);
+  } else {
+    res.json({});
+  }
 });
 
 router.get("/update", function (req, res, next) {
-  res.json(update);
+  if (fs.existsSync("update.json")) {
+    let update = require("../update.json");
+    res.json(update);
+  } else {
+    res.json({});
+  }
 });
 
 router.get("/prov", function (req, res, next) {
-  res.json(prov);
+  if (fs.existsSync("prov.json")) {
+    let prov = require("../prov.json");
+    res.json(prov);
+  } else {
+    res.json({});
+  }
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ var schedule = require("node-schedule");
 var https = require("https");
 var fs = require("fs");
 
-schedule.scheduleJob("*/5 * * * *", async function () {
+schedule.scheduleJob("*/60 * * * *", async function () {
   if (fs.existsSync("data.json")) {
     let rmData = await new fs.unlinkSync("data.json");
   }

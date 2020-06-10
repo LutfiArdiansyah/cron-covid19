@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var fs = require("fs");
+var https = require("https");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -8,30 +9,45 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/data", function (req, res, next) {
-  if (fs.existsSync("data.json")) {
-    let data = require("../data.json");
-    res.json(data);
-  } else {
-    res.json({});
-  }
+  let body = [];
+  https.get("https://data.covid19.go.id/public/api/data.json", function (
+    response
+  ) {
+    response.on("data", (val) => {
+      body.push(val);
+    });
+    response.on("end", () =>
+      res.json(JSON.parse(Buffer.concat(body).toString()))
+    );
+  });
 });
 
 router.get("/update", function (req, res, next) {
-  if (fs.existsSync("update.json")) {
-    let update = require("../update.json");
-    res.json(update);
-  } else {
-    res.json({});
-  }
+  let body = [];
+  https.get("https://data.covid19.go.id/public/api/update.json", function (
+    response
+  ) {
+    response.on("data", (val) => {
+      body.push(val);
+    });
+    response.on("end", () =>
+      res.json(JSON.parse(Buffer.concat(body).toString()))
+    );
+  });
 });
 
 router.get("/prov", function (req, res, next) {
-  if (fs.existsSync("prov.json")) {
-    let prov = require("../prov.json");
-    res.json(prov);
-  } else {
-    res.json({});
-  }
+  let body = [];
+  https.get("https://data.covid19.go.id/public/api/prov.json", function (
+    response
+  ) {
+    response.on("data", (val) => {
+      body.push(val);
+    });
+    response.on("end", () =>
+      res.json(JSON.parse(Buffer.concat(body).toString()))
+    );
+  });
 });
 
 module.exports = router;
